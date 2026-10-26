@@ -1,0 +1,45 @@
+{
+  "eval_set_id": "ds_agent_single_tool_test",
+  "name": "DS-Agent Single Tool Usage Test",
+  "description": "Simplified test for DS-Agent tool calling behavior",
+  "eval_cases": [
+    {
+      "eval_id": "simple-label-test",
+      "conversation": [
+        {
+          "invocation_id": "simple-001",
+          "user_content": {
+            "parts": [
+              {
+                "text": "What label rules are available?"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "Here are the available label rules."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": [
+              {
+                "name": "get_ontology_tool",
+                "args": {}
+              }
+            ],
+            "intermediate_responses": []
+          }
+        }
+      ],
+      "session_input": {
+        "app_name": "revive_agent",
+        "user_id": "test_user",
+        "state": {}
+      }
+    }
+  ]
+}

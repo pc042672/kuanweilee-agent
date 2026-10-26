@@ -1,0 +1,15 @@
+*.DS_Store
+*.log
+agent-test/*
+.venv/*
+.env
+__pycache__/
+*.pyc
+.adk/
+__adk_agent_builder_assistant/
+frontend-angular/
+doc/*.pdf
+
+# local artifacts
+backend/logs/
+*.docx

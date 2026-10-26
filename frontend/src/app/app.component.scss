@@ -1,0 +1,22 @@
+.app-container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(180deg, #fafaff 0%, #fcfcff 25%, #ffffff 50%, #fcfbff 75%, #f9f8ff 100%);
+}
+
+.chat-container {
+  flex: 1;
+  padding: var(--spacing-4);
+  overflow: hidden;
+
+  ::ng-deep .p-card {
+    height: 100%;
+    border-radius: var(--border-radius-xl);
+    box-shadow: var(--shadow-md);
+
+    .p-card-body, .p-card-content {
+      height: 100%;
+    }
+  }
+}

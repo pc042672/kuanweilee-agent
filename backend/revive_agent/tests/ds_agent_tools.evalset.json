@@ -1,0 +1,239 @@
+{
+  "eval_set_id": "ds_agent_tool_usage",
+  "name": "DS-Agent Proactive Tool Usage Tests",
+  "description": "Tests that DS-Agent proactively calls appropriate tools based on keywords in user queries",
+  "eval_cases": [
+    {
+      "eval_id": "DS-001-abandoned-cart",
+      "conversation": [
+        {
+          "invocation_id": "ds001-inv-001",
+          "user_content": {
+            "parts": [
+              {
+                "text": "Find abandoned cart users"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "I found the abandoned cart label definition. Let me propose an execution plan."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": [
+              {
+                "name": "get_ontology_tool",
+                "args": {}
+              }
+            ],
+            "intermediate_responses": []
+          }
+        }
+      ],
+      "session_input": {
+        "app_name": "revive_agent",
+        "user_id": "test_user",
+        "state": {}
+      }
+    },
+    {
+      "eval_id": "DS-002-label-rules",
+      "conversation": [
+        {
+          "invocation_id": "ds002-inv-001",
+          "user_content": {
+            "parts": [
+              {
+                "text": "Show me the label rules"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "Here are the predefined label rules for this system."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": [
+              {
+                "name": "get_ontology_tool",
+                "args": {}
+              }
+            ],
+            "intermediate_responses": []
+          }
+        }
+      ],
+      "session_input": {
+        "app_name": "revive_agent",
+        "user_id": "test_user",
+        "state": {}
+      }
+    },
+    {
+      "eval_id": "DS-003-high-value",
+      "conversation": [
+        {
+          "invocation_id": "ds003-inv-001",
+          "user_content": {
+            "parts": [
+              {
+                "text": "I need to find high value customers"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "I found the high value label definition. Let me create an execution plan."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": [
+              {
+                "name": "get_ontology_tool",
+                "args": {}
+              }
+            ],
+            "intermediate_responses": []
+          }
+        }
+      ],
+      "session_input": {
+        "app_name": "revive_agent",
+        "user_id": "test_user",
+        "state": {}
+      }
+    },
+    {
+      "eval_id": "DS-004-schema-listing",
+      "conversation": [
+        {
+          "invocation_id": "ds004-inv-001",
+          "user_content": {
+            "parts": [
+              {
+                "text": "List tables in the report schema"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "Here are the tables in the report schema."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": [
+              {
+                "name": "list_tables_in_schema_tool",
+                "args": {
+                  "schema_name": "report"
+                }
+              }
+            ],
+            "intermediate_responses": []
+          }
+        }
+      ],
+      "session_input": {
+        "app_name": "revive_agent",
+        "user_id": "test_user",
+        "state": {}
+      }
+    },
+    {
+      "eval_id": "DS-005-table-schema",
+      "conversation": [
+        {
+          "invocation_id": "ds005-inv-001",
+          "user_content": {
+            "parts": [
+              {
+                "text": "Get the schema for table report.smb_abandon_list"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "Here is the schema for report.smb_abandon_list."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": [
+              {
+                "name": "get_schema_tool",
+                "args": {
+                  "table_name": "report.smb_abandon_list"
+                }
+              }
+            ],
+            "intermediate_responses": []
+          }
+        }
+      ],
+      "session_input": {
+        "app_name": "revive_agent",
+        "user_id": "test_user",
+        "state": {}
+      }
+    },
+    {
+      "eval_id": "DS-006-ontology",
+      "conversation": [
+        {
+          "invocation_id": "ds006-inv-001",
+          "user_content": {
+            "parts": [
+              {
+                "text": "Show me the data ontology"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "Here is the business data ontology."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": [
+              {
+                "name": "get_ontology_tool",
+                "args": {}
+              }
+            ],
+            "intermediate_responses": []
+          }
+        }
+      ],
+      "session_input": {
+        "app_name": "revive_agent",
+        "user_id": "test_user",
+        "state": {}
+      }
+    }
+  ]
+}

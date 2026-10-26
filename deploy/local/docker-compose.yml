@@ -1,0 +1,28 @@
+# Local development database — plain PostgreSQL 12
+#
+# Usage:
+#   docker compose -f deploy/local/docker-compose.yml up -d
+#   python deploy/init_db.py --database-url postgresql+psycopg2://postgres:aicdp-dev@localhost:5432/aicdp \
+#       --admin-email you@example.com --admin-name "Admin" --site-name "Dev Site"
+#   DATABASE_URL=postgresql+psycopg2://postgres:aicdp-dev@localhost:5432/aicdp python -m backend.server
+
+services:
+  postgres:
+    image: postgres:12
+    container_name: aicdp-postgres12
+    environment:
+      POSTGRES_DB: aicdp
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: aicdp-dev
+    ports:
+      - "5432:5432"
+    volumes:
+      - aicdp_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d aicdp"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+volumes:
+  aicdp_pgdata:

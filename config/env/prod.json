@@ -1,0 +1,17 @@
+{
+  "auth_required": true,
+  "cors_origins": [],
+  "log_level": "INFO",
+  "enable_cloud_logging": true,
+  "enable_cloud_trace": true,
+  "enable_model_guard": true,
+  "rate_limit_enabled": true,
+  "min_instances": 1,
+  "max_instances": 10,
+  "database_url": "postgresql+psycopg2://postgres:password@10.0.0.3:5432/aicdp_prod",
+  "gp_host": "prod-gp.internal",
+  "gp_port": "5432",
+  "gp_user": "readonly_user",
+  "gp_password": "",
+  "gp_dbname": "cdp_prod"
+}

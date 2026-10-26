@@ -1,0 +1,17 @@
+{
+  "auth_required": false,
+  "cors_origins": ["http://localhost:4200", "http://127.0.0.1:4200"],
+  "log_level": "DEBUG",
+  "enable_cloud_logging": false,
+  "enable_cloud_trace": false,
+  "enable_model_guard": false,
+  "rate_limit_enabled": false,
+  "min_instances": 0,
+  "max_instances": 1,
+  "database_url": null,
+  "gp_host": "localhost",
+  "gp_port": "5432",
+  "gp_user": "gpadmin",
+  "gp_password": "pivotal",
+  "gp_dbname": "dev"
+}

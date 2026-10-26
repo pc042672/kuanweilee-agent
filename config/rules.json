@@ -1,0 +1,362 @@
+{
+  "version": "1.0.0",
+  "site_id": "default",
+  "computeRules": [
+    {
+      "attribute": "會員資訊-性別",
+      "type": "sql",
+      "sources": [
+        {
+          "datasource": "member_profile",
+          "column": "gender_code"
+        }
+      ],
+      "valueMappings": [
+        {
+          "name": "男",
+          "value": "01",
+          "semanticDefinition": null
+        },
+        {
+          "name": "女",
+          "value": "02",
+          "semanticDefinition": null
+        }
+      ]
+    },
+    {
+      "attribute": "會員資訊-年齡區間",
+      "type": "sql",
+      "sources": [
+        {
+          "datasource": "member_profile",
+          "column": "birth_date"
+        }
+      ],
+      "valueMappings": [
+        {
+          "name": "18-24歲",
+          "value": "18-24",
+          "semanticDefinition": null
+        },
+        {
+          "name": "25-34歲",
+          "value": "25-34",
+          "semanticDefinition": null
+        },
+        {
+          "name": "35-44歲",
+          "value": "35-44",
+          "semanticDefinition": null
+        },
+        {
+          "name": "45-54歲",
+          "value": "45-54",
+          "semanticDefinition": null
+        },
+        {
+          "name": "55+歲",
+          "value": "55+",
+          "semanticDefinition": null
+        }
+      ],
+      "sql": "CASE WHEN age BETWEEN 18 AND 24 THEN '18-24' WHEN age BETWEEN 25 AND 34 THEN '25-34' WHEN age BETWEEN 35 AND 44 THEN '35-44' WHEN age BETWEEN 45 AND 54 THEN '45-54' ELSE '55+' END"
+    },
+    {
+      "attribute": "消費行為-購買力等級",
+      "type": "sql",
+      "sources": [
+        {
+          "datasource": "member_rfm",
+          "column": "purchase_level"
+        }
+      ],
+      "valueMappings": [
+        {
+          "name": "等級5",
+          "value": "5",
+          "semanticDefinition": "Top-tier spender, frequent luxury purchases"
+        },
+        {
+          "name": "等級4",
+          "value": "4",
+          "semanticDefinition": "High spender, regular premium purchases"
+        },
+        {
+          "name": "等級3",
+          "value": "3",
+          "semanticDefinition": "Mid-range, balanced spending patterns"
+        },
+        {
+          "name": "等級2",
+          "value": "2",
+          "semanticDefinition": "Budget-conscious, occasional purchases"
+        },
+        {
+          "name": "等級1",
+          "value": "1",
+          "semanticDefinition": "Minimal spending, rare transactions"
+        }
+      ]
+    },
+    {
+      "attribute": "消費行為-購買頻率",
+      "type": "sql",
+      "sources": [
+        {
+          "datasource": "member_rfm",
+          "column": "frequency_score"
+        }
+      ],
+      "valueMappings": [
+        {
+          "name": "高頻",
+          "value": "HIGH",
+          "semanticDefinition": "Purchases at least once per week"
+        },
+        {
+          "name": "中頻",
+          "value": "MEDIUM",
+          "semanticDefinition": "Purchases 2-4 times per month"
+        },
+        {
+          "name": "低頻",
+          "value": "LOW",
+          "semanticDefinition": "Purchases less than twice per month"
+        },
+        {
+          "name": "沉睡",
+          "value": "DORMANT",
+          "semanticDefinition": "No purchase in last 90 days"
+        }
+      ],
+      "sql": "CASE WHEN frequency_score >= 4 THEN 'HIGH' WHEN frequency_score >= 2 THEN 'MEDIUM' WHEN frequency_score >= 1 THEN 'LOW' ELSE 'DORMANT' END"
+    },
+    {
+      "attribute": "archetype",
+      "type": "quiz",
+      "sources": [],
+      "valueMappings": [],
+      "quiz": {
+        "questions": [
+          {
+            "id": "q1",
+            "text": "When faced with a new challenge, you prefer to:",
+            "options": [
+              {
+                "id": "a",
+                "text": "Explore all possibilities before deciding",
+                "mappings": {
+                  "explorer": 2,
+                  "sage": 1
+                },
+                "nextQuestionId": "q2"
+              },
+              {
+                "id": "b",
+                "text": "Take decisive action immediately",
+                "mappings": {
+                  "hero": 2,
+                  "rebel": 1
+                },
+                "nextQuestionId": "q2"
+              },
+              {
+                "id": "c",
+                "text": "Research thoroughly and plan ahead",
+                "mappings": {
+                  "sage": 2,
+                  "ruler": 1
+                },
+                "nextQuestionId": "q2"
+              },
+              {
+                "id": "d",
+                "text": "Find a creative unconventional solution",
+                "mappings": {
+                  "creator": 2,
+                  "magician": 1
+                },
+                "nextQuestionId": "q2"
+              }
+            ]
+          },
+          {
+            "id": "q2",
+            "text": "In social situations, you tend to:",
+            "options": [
+              {
+                "id": "a",
+                "text": "Share stories and make people laugh",
+                "mappings": {
+                  "jester": 2,
+                  "explorer": 1
+                },
+                "nextQuestionId": null
+              },
+              {
+                "id": "b",
+                "text": "Listen carefully and offer support",
+                "mappings": {
+                  "caregiver": 2,
+                  "innocent": 1
+                },
+                "nextQuestionId": null
+              },
+              {
+                "id": "c",
+                "text": "Take charge and organize the group",
+                "mappings": {
+                  "ruler": 2,
+                  "hero": 1
+                },
+                "nextQuestionId": null
+              },
+              {
+                "id": "d",
+                "text": "Connect deeply with individuals",
+                "mappings": {
+                  "lover": 2,
+                  "everyman": 1
+                },
+                "nextQuestionId": null
+              }
+            ]
+          },
+          {
+            "id": "q3",
+            "text": "Your ideal weekend activity would be:",
+            "options": [
+              {
+                "id": "a",
+                "text": "Discovering a new hiking trail or travel destination",
+                "mappings": {
+                  "explorer": 2,
+                  "innocent": 1
+                },
+                "nextQuestionId": null
+              },
+              {
+                "id": "b",
+                "text": "Working on a personal creative project",
+                "mappings": {
+                  "creator": 2,
+                  "magician": 1
+                },
+                "nextQuestionId": null
+              },
+              {
+                "id": "c",
+                "text": "Volunteering or helping friends",
+                "mappings": {
+                  "caregiver": 2,
+                  "everyman": 1
+                },
+                "nextQuestionId": null
+              },
+              {
+                "id": "d",
+                "text": "Attending a protest or community event",
+                "mappings": {
+                  "rebel": 2,
+                  "hero": 1
+                },
+                "nextQuestionId": null
+              }
+            ]
+          },
+          {
+            "id": "q4",
+            "text": "When shopping, what matters most to you?",
+            "options": [
+              {
+                "id": "a",
+                "text": "Quality and timeless design",
+                "mappings": {
+                  "ruler": 2,
+                  "sage": 1
+                },
+                "nextQuestionId": null
+              },
+              {
+                "id": "b",
+                "text": "Unique or limited-edition items",
+                "mappings": {
+                  "creator": 2,
+                  "rebel": 1
+                },
+                "nextQuestionId": null
+              },
+              {
+                "id": "c",
+                "text": "Great value and popular brands",
+                "mappings": {
+                  "everyman": 2,
+                  "innocent": 1
+                },
+                "nextQuestionId": null
+              },
+              {
+                "id": "d",
+                "text": "Sensory experience — texture, scent, aesthetics",
+                "mappings": {
+                  "lover": 2,
+                  "magician": 1
+                },
+                "nextQuestionId": null
+              }
+            ]
+          },
+          {
+            "id": "q5",
+            "text": "Which statement resonates with you the most?",
+            "options": [
+              {
+                "id": "a",
+                "text": "Life is an adventure to be lived fully",
+                "mappings": {
+                  "explorer": 2,
+                  "jester": 1
+                },
+                "nextQuestionId": null
+              },
+              {
+                "id": "b",
+                "text": "Knowledge is the key to everything",
+                "mappings": {
+                  "sage": 2,
+                  "creator": 1
+                },
+                "nextQuestionId": null
+              },
+              {
+                "id": "c",
+                "text": "The world needs more kindness and care",
+                "mappings": {
+                  "caregiver": 2,
+                  "innocent": 1
+                },
+                "nextQuestionId": null
+              },
+              {
+                "id": "d",
+                "text": "Rules are meant to be questioned",
+                "mappings": {
+                  "rebel": 2,
+                  "magician": 1
+                },
+                "nextQuestionId": null
+              }
+            ]
+          }
+        ],
+        "scoring": {
+          "primaryThreshold": 3,
+          "secondaryThreshold": 2,
+          "maxPrimary": 1,
+          "maxSecondary": 2
+        }
+      }
+    }
+  ]
+}

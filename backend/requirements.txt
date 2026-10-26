@@ -1,0 +1,19 @@
+google-adk>=2.2.0,<3.0.0
+ag-ui-adk>=0.6.5
+aiohttp>=3.14.0  # google-genai streaming calls readline(max_line_length=...), added in 3.14
+fastapi
+uvicorn
+psycopg2-binary
+asyncpg
+python-dotenv
+jinja2
+sqlalchemy[asyncio]>=2.0  # 2.1+ no longer pulls greenlet by default; async engine needs it
+sqlglot>=25  # SQL AST validation (dbtoolbox policy layer)
+cryptography>=42  # Fernet encryption for per-site credentials
+google-auth>=2.0
+google-cloud-aiplatform>=1.114.0
+google-cloud-vectorsearch>=0.1.0
+google-cloud-secret-manager>=2.0
+google-cloud-logging>=3.0
+opentelemetry-api>=1.0
+opentelemetry-exporter-gcp-trace>=1.0

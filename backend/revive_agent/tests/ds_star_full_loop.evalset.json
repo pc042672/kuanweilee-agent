@@ -1,0 +1,174 @@
+{
+  "eval_set_id": "ds_star_full_orchestration",
+  "name": "DS-STAR Full Orchestration Loop Tests",
+  "description": "Tests the complete DS-STAR multi-agent loop: DS-Agent (plan) -> DE-Agent (execute) -> Verifier (evaluate)",
+  "eval_cases": [
+    {
+      "eval_id": "ORCH-001-single-iteration",
+      "conversation": [
+        {
+          "invocation_id": "orch001-inv-001",
+          "user_content": {
+            "parts": [
+              {
+                "text": "Find abandoned cart users from the report schema"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "Task completed successfully!"
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": [
+              {
+                "name": "get_ontology_tool",
+                "args": {}
+              },
+              {
+                "name": "list_tables_in_schema_tool",
+                "args": {
+                  "schema_name": "report"
+                }
+              },
+              {
+                "name": "dry_run_sql_tool",
+                "args": {
+                  "sql_query": "SELECT * FROM report.smb_abandon_list LIMIT 10"
+                }
+              },
+              {
+                "name": "run_sql_preview_tool",
+                "args": {
+                  "sql_query": "SELECT * FROM report.smb_abandon_list LIMIT 10"
+                }
+              }
+            ],
+            "intermediate_responses": [
+              {
+                "author": "DSAgent",
+                "text": "EXECUTION PLAN"
+              },
+              {
+                "author": "DEAgent",
+                "text": "EXECUTION RESULT"
+              },
+              {
+                "author": "Verifier",
+                "text": "VERIFICATION"
+              }
+            ]
+          }
+        }
+      ],
+      "session_input": {
+        "app_name": "revive_agent",
+        "user_id": "test_user",
+        "state": {}
+      }
+    },
+    {
+      "eval_id": "ORCH-002-sql-validation-flow",
+      "conversation": [
+        {
+          "invocation_id": "orch002-inv-001",
+          "user_content": {
+            "parts": [
+              {
+                "text": "Query all users from report.smb_abandon_list where cart_value > 1000"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "Task completed successfully!"
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": [
+              {
+                "name": "get_schema_tool",
+                "args": {
+                  "table_name": "report.smb_abandon_list"
+                }
+              },
+              {
+                "name": "dry_run_sql_tool",
+                "args": {}
+              },
+              {
+                "name": "run_sql_preview_tool",
+                "args": {}
+              }
+            ],
+            "intermediate_responses": []
+          }
+        }
+      ],
+      "session_input": {
+        "app_name": "revive_agent",
+        "user_id": "test_user",
+        "state": {}
+      }
+    },
+    {
+      "eval_id": "ORCH-003-multi-table-join",
+      "conversation": [
+        {
+          "invocation_id": "orch003-inv-001",
+          "user_content": {
+            "parts": [
+              {
+                "text": "Join abandoned cart users with their order history"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "Generated SQL with JOIN for abandoned cart users and order history."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": [
+              {
+                "name": "get_ontology_tool",
+                "args": {}
+              },
+              {
+                "name": "get_ontology_tool",
+                "args": {}
+              },
+              {
+                "name": "dry_run_sql_tool",
+                "args": {}
+              },
+              {
+                "name": "run_sql_preview_tool",
+                "args": {}
+              }
+            ],
+            "intermediate_responses": []
+          }
+        }
+      ],
+      "session_input": {
+        "app_name": "revive_agent",
+        "user_id": "test_user",
+        "state": {}
+      }
+    }
+  ]
+}

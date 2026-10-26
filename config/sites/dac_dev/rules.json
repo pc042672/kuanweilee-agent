@@ -1,0 +1,396 @@
+{
+  "version": "1.0.0",
+  "site_id": "default",
+  "computeRules": [
+    {
+      "attribute": "消費行為-購買力等級",
+      "type": "sql",
+      "sources": [
+        {
+          "datasource": "member_rfm",
+          "column": "avg_amount"
+        }
+      ],
+      "sql": "CASE WHEN segment = 0 THEN NULL WHEN avg_amount >= 1525.68 THEN 5 WHEN avg_amount >= 1330 THEN 4 WHEN avg_amount >= 999 THEN 3 WHEN avg_amount >= 317 THEN 2 ELSE 1 END",
+      "valueMappings": [
+        {
+          "name": "等級5",
+          "value": "5",
+          "semanticDefinition": "avg_amount >= 1525.68 (top 20%)"
+        },
+        {
+          "name": "等級4",
+          "value": "4",
+          "semanticDefinition": "avg_amount 1330–1525.68"
+        },
+        {
+          "name": "等級3",
+          "value": "3",
+          "semanticDefinition": "avg_amount 999–1330"
+        },
+        {
+          "name": "等級2",
+          "value": "2",
+          "semanticDefinition": "avg_amount 317–999"
+        },
+        {
+          "name": "等級1",
+          "value": "1",
+          "semanticDefinition": "avg_amount < 317 (bottom 20%)"
+        }
+      ]
+    },
+    {
+      "attribute": "消費行為-最近購買天數",
+      "type": "sql",
+      "sources": [
+        {
+          "datasource": "member_rfm",
+          "column": "recency"
+        }
+      ],
+      "sql": "recency",
+      "valueMappings": []
+    },
+    {
+      "attribute": "消費行為-購買頻率",
+      "type": "sql",
+      "sources": [
+        {
+          "datasource": "member_rfm",
+          "column": "frequency"
+        }
+      ],
+      "sql": "CASE WHEN segment = 0 THEN NULL WHEN frequency >= 2.67 THEN 'HIGH' WHEN frequency > 1 THEN 'MEDIUM' ELSE 'LOW' END",
+      "valueMappings": [
+        {
+          "name": "高頻",
+          "value": "HIGH",
+          "semanticDefinition": "frequency >= 2.67 visits/year (top 10%)"
+        },
+        {
+          "name": "中頻",
+          "value": "MEDIUM",
+          "semanticDefinition": "frequency > 1 and < 2.67 visits/year"
+        },
+        {
+          "name": "低頻",
+          "value": "LOW",
+          "semanticDefinition": "frequency <= 1 visit/year"
+        }
+      ]
+    },
+    {
+      "attribute": "消費行為-活躍狀態",
+      "type": "sql",
+      "sources": [
+        {
+          "datasource": "member_rfm",
+          "column": "recency"
+        }
+      ],
+      "sql": "CASE WHEN segment = 0 THEN NULL WHEN recency <= 180 THEN 'ACTIVE' WHEN recency <= 365 THEN 'COOLING' WHEN recency <= 730 THEN 'AT_RISK' ELSE 'DORMANT' END",
+      "valueMappings": [
+        {
+          "name": "活躍",
+          "value": "ACTIVE",
+          "semanticDefinition": "Purchased within 180 days"
+        },
+        {
+          "name": "冷卻",
+          "value": "COOLING",
+          "semanticDefinition": "Last purchase 181–365 days ago"
+        },
+        {
+          "name": "流失風險",
+          "value": "AT_RISK",
+          "semanticDefinition": "Last purchase 366–730 days ago"
+        },
+        {
+          "name": "沉睡",
+          "value": "DORMANT",
+          "semanticDefinition": "No purchase in 730+ days"
+        }
+      ]
+    },
+    {
+      "attribute": "消費行為-RFM分群",
+      "type": "sql",
+      "sources": [
+        {
+          "datasource": "member_rfm",
+          "column": "segment"
+        }
+      ],
+      "sql": "CASE WHEN segment > 0 THEN segment::text END",
+      "valueMappings": [
+        {
+          "name": "R高F高M高",
+          "value": "1",
+          "semanticDefinition": "Champions"
+        },
+        {
+          "name": "R高F低M高",
+          "value": "2",
+          "semanticDefinition": "Recent big spenders"
+        },
+        {
+          "name": "R低F高M高",
+          "value": "3",
+          "semanticDefinition": "At-risk loyal high value"
+        },
+        {
+          "name": "R低F低M高",
+          "value": "4",
+          "semanticDefinition": "Lapsed big spenders"
+        },
+        {
+          "name": "R高F高M低",
+          "value": "5",
+          "semanticDefinition": "Recent frequent low spend"
+        },
+        {
+          "name": "R高F低M低",
+          "value": "6",
+          "semanticDefinition": "New/occasional"
+        },
+        {
+          "name": "R低F高M低",
+          "value": "7",
+          "semanticDefinition": "At-risk frequent low spend"
+        },
+        {
+          "name": "R低F低M低",
+          "value": "8",
+          "semanticDefinition": "Lapsed low value"
+        }
+      ]
+    },
+    {
+      "attribute": "archetype",
+      "type": "quiz",
+      "sources": [],
+      "valueMappings": [],
+      "quiz": {
+        "questions": [
+          {
+            "id": "q1",
+            "text": "When faced with a new challenge, you prefer to:",
+            "options": [
+              {
+                "id": "a",
+                "text": "Explore all possibilities before deciding",
+                "mappings": {
+                  "explorer": 2,
+                  "sage": 1
+                },
+                "nextQuestionId": "q2"
+              },
+              {
+                "id": "b",
+                "text": "Take decisive action immediately",
+                "mappings": {
+                  "hero": 2,
+                  "rebel": 1
+                },
+                "nextQuestionId": "q2"
+              },
+              {
+                "id": "c",
+                "text": "Research thoroughly and plan ahead",
+                "mappings": {
+                  "sage": 2,
+                  "ruler": 1
+                },
+                "nextQuestionId": "q2"
+              },
+              {
+                "id": "d",
+                "text": "Find a creative unconventional solution",
+                "mappings": {
+                  "creator": 2,
+                  "magician": 1
+                },
+                "nextQuestionId": "q2"
+              }
+            ]
+          },
+          {
+            "id": "q2",
+            "text": "In social situations, you tend to:",
+            "options": [
+              {
+                "id": "a",
+                "text": "Share stories and make people laugh",
+                "mappings": {
+                  "jester": 2,
+                  "explorer": 1
+                },
+                "nextQuestionId": null
+              },
+              {
+                "id": "b",
+                "text": "Listen carefully and offer support",
+                "mappings": {
+                  "caregiver": 2,
+                  "innocent": 1
+                },
+                "nextQuestionId": null
+              },
+              {
+                "id": "c",
+                "text": "Take charge and organize the group",
+                "mappings": {
+                  "ruler": 2,
+                  "hero": 1
+                },
+                "nextQuestionId": null
+              },
+              {
+                "id": "d",
+                "text": "Connect deeply with individuals",
+                "mappings": {
+                  "lover": 2,
+                  "everyman": 1
+                },
+                "nextQuestionId": null
+              }
+            ]
+          },
+          {
+            "id": "q3",
+            "text": "Your ideal weekend activity would be:",
+            "options": [
+              {
+                "id": "a",
+                "text": "Discovering a new hiking trail or travel destination",
+                "mappings": {
+                  "explorer": 2,
+                  "innocent": 1
+                },
+                "nextQuestionId": null
+              },
+              {
+                "id": "b",
+                "text": "Working on a personal creative project",
+                "mappings": {
+                  "creator": 2,
+                  "magician": 1
+                },
+                "nextQuestionId": null
+              },
+              {
+                "id": "c",
+                "text": "Volunteering or helping friends",
+                "mappings": {
+                  "caregiver": 2,
+                  "everyman": 1
+                },
+                "nextQuestionId": null
+              },
+              {
+                "id": "d",
+                "text": "Attending a protest or community event",
+                "mappings": {
+                  "rebel": 2,
+                  "hero": 1
+                },
+                "nextQuestionId": null
+              }
+            ]
+          },
+          {
+            "id": "q4",
+            "text": "When shopping, what matters most to you?",
+            "options": [
+              {
+                "id": "a",
+                "text": "Quality and timeless design",
+                "mappings": {
+                  "ruler": 2,
+                  "sage": 1
+                },
+                "nextQuestionId": null
+              },
+              {
+                "id": "b",
+                "text": "Unique or limited-edition items",
+                "mappings": {
+                  "creator": 2,
+                  "rebel": 1
+                },
+                "nextQuestionId": null
+              },
+              {
+                "id": "c",
+                "text": "Great value and popular brands",
+                "mappings": {
+                  "everyman": 2,
+                  "innocent": 1
+                },
+                "nextQuestionId": null
+              },
+              {
+                "id": "d",
+                "text": "Sensory experience — texture, scent, aesthetics",
+                "mappings": {
+                  "lover": 2,
+                  "magician": 1
+                },
+                "nextQuestionId": null
+              }
+            ]
+          },
+          {
+            "id": "q5",
+            "text": "Which statement resonates with you the most?",
+            "options": [
+              {
+                "id": "a",
+                "text": "Life is an adventure to be lived fully",
+                "mappings": {
+                  "explorer": 2,
+                  "jester": 1
+                },
+                "nextQuestionId": null
+              },
+              {
+                "id": "b",
+                "text": "Knowledge is the key to everything",
+                "mappings": {
+                  "sage": 2,
+                  "creator": 1
+                },
+                "nextQuestionId": null
+              },
+              {
+                "id": "c",
+                "text": "The world needs more kindness and care",
+                "mappings": {
+                  "caregiver": 2,
+                  "innocent": 1
+                },
+                "nextQuestionId": null
+              },
+              {
+                "id": "d",
+                "text": "Rules are meant to be questioned",
+                "mappings": {
+                  "rebel": 2,
+                  "magician": 1
+                },
+                "nextQuestionId": null
+              }
+            ]
+          }
+        ],
+        "scoring": {
+          "primaryThreshold": 3,
+          "secondaryThreshold": 2,
+          "maxPrimary": 1,
+          "maxSecondary": 2
+        }
+      }
+    }
+  ]
+}

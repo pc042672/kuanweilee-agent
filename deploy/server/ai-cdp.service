@@ -1,0 +1,21 @@
+[Unit]
+Description=AI-CDP Backend Server
+After=network.target
+
+[Service]
+Type=simple
+User=root
+Group=root
+WorkingDirectory=/root/ai-cdp
+Environment="PATH=/root/ai-cdp/.venv/bin:/usr/local/bin:/usr/bin:/bin"
+EnvironmentFile=/root/ai-cdp/.env
+ExecStart=/root/ai-cdp/.venv/bin/uvicorn backend.server:app --host 127.0.0.1 --port 8000
+Restart=always
+RestartSec=5
+StandardOutput=journal
+StandardError=journal
+
+LimitNOFILE=65536
+
+[Install]
+WantedBy=multi-user.target

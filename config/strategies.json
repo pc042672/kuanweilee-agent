@@ -1,0 +1,309 @@
+{
+  "version": "1.0.0",
+  "site_id": "default",
+  "strategies": [
+    {
+      "key": "nba",
+      "name": "NBA",
+      "segment": "explorer_campaign",
+      "strategy": null,
+      "template": "Discover {offering}! Your next adventure awaits.",
+      "params": {
+        "tone": "adventurous"
+      }
+    },
+    {
+      "key": "nbo",
+      "name": "NBO",
+      "segment": "explorer_campaign",
+      "strategy": "strategic_discovery",
+      "template": null,
+      "params": {}
+    },
+    {
+      "key": "nba",
+      "name": "NBA",
+      "segment": "high_value_female",
+      "strategy": null,
+      "template": "Exclusive offer for you: {offering}",
+      "params": {
+        "tone": "premium"
+      }
+    },
+    {
+      "key": "nbo",
+      "name": "NBO",
+      "segment": "high_value_female",
+      "strategy": "luxury_personalized",
+      "template": null,
+      "params": {}
+    },
+    {
+      "key": "nba",
+      "name": "NBA",
+      "segment": "dormant_reactivation",
+      "strategy": null,
+      "template": "We miss you! Come back and enjoy {offering}",
+      "params": {
+        "tone": "warm"
+      }
+    },
+    {
+      "key": "nbo",
+      "name": "NBO",
+      "segment": "dormant_reactivation",
+      "strategy": "winback_incentive",
+      "template": null,
+      "params": {}
+    },
+    {
+      "key": "nba",
+      "name": "NBA",
+      "segment": "young_high_spender",
+      "strategy": null,
+      "template": "Trending now: {offering} — made for you!",
+      "params": {
+        "tone": "trendy"
+      }
+    },
+    {
+      "key": "nbo",
+      "name": "NBO",
+      "segment": "young_high_spender",
+      "strategy": "social_proof",
+      "template": null,
+      "params": {}
+    },
+    {
+      "key": "nba",
+      "name": "NBA",
+      "segment": "hero_campaign",
+      "strategy": null,
+      "template": "Conquer your cart! Use this Hero's Reward of {offering} to finish the mission.",
+      "params": {
+        "tone": "direct_achievement",
+        "incentive_format": "performance bonus / tiered points"
+      }
+    },
+    {
+      "key": "nbo",
+      "name": "NBO",
+      "segment": "hero_campaign",
+      "strategy": "competitive",
+      "template": null,
+      "params": {
+        "negotiation": "milestones and wins"
+      }
+    },
+    {
+      "key": "nba",
+      "name": "NBA",
+      "segment": "sage_campaign",
+      "strategy": null,
+      "template": "Make the informed choice. Apply this {offering} Data-Driven Credit to finalize your decision.",
+      "params": {
+        "tone": "informative_rational",
+        "incentive_format": "expert guide / research"
+      }
+    },
+    {
+      "key": "nbo",
+      "name": "NBO",
+      "segment": "sage_campaign",
+      "strategy": "analytical",
+      "template": null,
+      "params": {
+        "negotiation": "value propositions and research"
+      }
+    },
+    {
+      "key": "nba",
+      "name": "NBA",
+      "segment": "caregiver_campaign",
+      "strategy": null,
+      "template": "A little something for you and yours: {offering}.",
+      "params": {
+        "tone": "empathetic_reassuring",
+        "incentive_format": "referral bonus / charity match"
+      }
+    },
+    {
+      "key": "nbo",
+      "name": "NBO",
+      "segment": "caregiver_campaign",
+      "strategy": "nurturing",
+      "template": null,
+      "params": {
+        "negotiation": "the helping-hand framing"
+      }
+    },
+    {
+      "key": "nba",
+      "name": "NBA",
+      "segment": "rebel_campaign",
+      "strategy": null,
+      "template": "Break the rules — claim your {offering} and stand out.",
+      "params": {
+        "tone": "bold_disruptive",
+        "incentive_format": "exclusive early access / limited drop"
+      }
+    },
+    {
+      "key": "nbo",
+      "name": "NBO",
+      "segment": "rebel_campaign",
+      "strategy": "disruptive",
+      "template": null,
+      "params": {
+        "negotiation": "challenge the norm"
+      }
+    },
+    {
+      "key": "nba",
+      "name": "NBA",
+      "segment": "creator_campaign",
+      "strategy": null,
+      "template": "Bring your vision to life with {offering}.",
+      "params": {
+        "tone": "inspirational_crafted",
+        "incentive_format": "customization / bundle credits"
+      }
+    },
+    {
+      "key": "nbo",
+      "name": "NBO",
+      "segment": "creator_campaign",
+      "strategy": "co_creative",
+      "template": null,
+      "params": {
+        "negotiation": "build-your-own value"
+      }
+    },
+    {
+      "key": "nba",
+      "name": "NBA",
+      "segment": "ruler_campaign",
+      "strategy": null,
+      "template": "Command the best: {offering}, reserved for you.",
+      "params": {
+        "tone": "authoritative_premium",
+        "incentive_format": "VIP tier / status upgrade"
+      }
+    },
+    {
+      "key": "nbo",
+      "name": "NBO",
+      "segment": "ruler_campaign",
+      "strategy": "exclusivity",
+      "template": null,
+      "params": {
+        "negotiation": "status and control"
+      }
+    },
+    {
+      "key": "nba",
+      "name": "NBA",
+      "segment": "magician_campaign",
+      "strategy": null,
+      "template": "Transform your cart into something magical with {offering}.",
+      "params": {
+        "tone": "visionary_transformative",
+        "incentive_format": "surprise reward / mystery bonus"
+      }
+    },
+    {
+      "key": "nbo",
+      "name": "NBO",
+      "segment": "magician_campaign",
+      "strategy": "transformational",
+      "template": null,
+      "params": {
+        "negotiation": "the vision payoff"
+      }
+    },
+    {
+      "key": "nba",
+      "name": "NBA",
+      "segment": "lover_campaign",
+      "strategy": null,
+      "template": "Treat yourself — {offering}, made to be loved.",
+      "params": {
+        "tone": "warm_sensory",
+        "incentive_format": "gift wrap / pairing offer"
+      }
+    },
+    {
+      "key": "nbo",
+      "name": "NBO",
+      "segment": "lover_campaign",
+      "strategy": "relational",
+      "template": null,
+      "params": {
+        "negotiation": "intimacy and indulgence"
+      }
+    },
+    {
+      "key": "nba",
+      "name": "NBA",
+      "segment": "jester_campaign",
+      "strategy": null,
+      "template": "Why wait? Grab {offering} and enjoy the moment!",
+      "params": {
+        "tone": "playful_fun",
+        "incentive_format": "flash deal / playful perk"
+      }
+    },
+    {
+      "key": "nbo",
+      "name": "NBO",
+      "segment": "jester_campaign",
+      "strategy": "lighthearted",
+      "template": null,
+      "params": {
+        "negotiation": "fun and spontaneity"
+      }
+    },
+    {
+      "key": "nba",
+      "name": "NBA",
+      "segment": "innocent_campaign",
+      "strategy": null,
+      "template": "Keep it simple — {offering}, no strings attached.",
+      "params": {
+        "tone": "reassuring_simple",
+        "incentive_format": "money-back guarantee / free returns"
+      }
+    },
+    {
+      "key": "nbo",
+      "name": "NBO",
+      "segment": "innocent_campaign",
+      "strategy": "trust_building",
+      "template": null,
+      "params": {
+        "negotiation": "safety and simplicity"
+      }
+    },
+    {
+      "key": "nba",
+      "name": "NBA",
+      "segment": "everyman_campaign",
+      "strategy": null,
+      "template": "Join thousands who love {offering} — it's made for everyone.",
+      "params": {
+        "tone": "friendly_relatable",
+        "incentive_format": "loyalty points / community perk"
+      }
+    },
+    {
+      "key": "nbo",
+      "name": "NBO",
+      "segment": "everyman_campaign",
+      "strategy": "belonging",
+      "template": null,
+      "params": {
+        "negotiation": "belonging and value"
+      }
+    }
+  ]
+}

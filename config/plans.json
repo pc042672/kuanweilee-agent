@@ -1,0 +1,268 @@
+{
+  "version": "1.0",
+  "plans": [
+    {
+      "id": "brand-analysis-workflow",
+      "name": "Brand Analysis & Marketing Campaign Workflow",
+      "description": "Complete brand analysis and marketing campaign planning workflow",
+      "status": "active",
+      "trigger_keywords": ["brand analysis", "campaign planning", "marketing workflow"],
+      "phases": [
+        {
+          "id": "phase_1",
+          "name": "Brand Discovery",
+          "description": "Analyze brand website and extract brand context",
+          "agent": "ds_agent",
+          "required_input": ["brand_name", "website_url"],
+          "tools": ["analyze_brand_tool"],
+          "output_key": "brand_analysis",
+          "next_phase": "phase_2"
+        },
+        {
+          "id": "phase_2",
+          "name": "Product Data Analysis",
+          "description": "Query product master data from data.icem_item",
+          "agent": "de_agent",
+          "sql_template": "SELECT id, code, name, category, price, description FROM data.icem_item WHERE site_id = {site_id} AND {filters} ORDER BY {order_by} LIMIT 10",
+          "output_key": "product_details",
+          "next_phase": "phase_3"
+        },
+        {
+          "id": "phase_3",
+          "name": "DAC Taxonomy Mapping",
+          "description": "Map brand to DAC taxonomy categories",
+          "agent": "ds_agent",
+          "sql_template": "SELECT category, label_level_1, label_level_2, label, label_type, description FROM dac.dac_taxonomy ORDER BY category, label_level_1, label_level_2",
+          "tools": ["map_brand_to_taxonomy_tool"],
+          "output_key": "taxonomy_mapping",
+          "next_phase": "phase_4"
+        },
+        {
+          "id": "phase_4",
+          "name": "Context Storage",
+          "description": "Save brand analysis results to ontology",
+          "agent": "ds_agent",
+          "tools": ["add_entity_tool"],
+          "output_key": "brand_entity_id",
+          "next_phase": "phase_5"
+        },
+        {
+          "id": "phase_5",
+          "name": "Requirement Collection",
+          "description": "Collect user analysis requirements",
+          "agent": "ds_agent",
+          "options": [
+            "VIP Customer Analysis",
+            "Abandoned Cart Analysis",
+            "RFM Segmentation",
+            "Repurchase Rate Analysis",
+            "New vs Returning Customer Analysis",
+            "Custom Requirement"
+          ],
+          "output_key": "analysis_requirement",
+          "next_phase": "phase_6"
+        },
+        {
+          "id": "phase_6",
+          "name": "Activation Channel Selection",
+          "description": "Select marketing activation channel",
+          "agent": "ds_agent",
+          "options": [
+            "Email Marketing",
+            "SMS Marketing",
+            "LINE Push",
+            "Push Notification",
+            "Multi-channel"
+          ],
+          "default": "Email Marketing",
+          "output_key": "activation_channel",
+          "next_phase": "phase_7"
+        },
+        {
+          "id": "phase_7",
+          "name": "DS-Agent Analysis Planning",
+          "description": "Generate execution plan based on context",
+          "agent": "ds_agent",
+          "tools": ["get_ontology_tool", "submit_execution_plan"],
+          "context_keys": ["brand_analysis", "analysis_requirement", "activation_channel"],
+          "output_key": "execution_plan",
+          "next_phase": "phase_8"
+        },
+        {
+          "id": "phase_8",
+          "name": "DE-Agent Execution & Verification",
+          "description": "Execute plan and verify results",
+          "agent": "de_agent",
+          "tools": ["dry_run_sql_tool", "run_sql_preview_tool"],
+          "verification": {
+            "agent": "verifier",
+            "on_success": "phase_9",
+            "on_backtrack": "phase_7",
+            "on_add_step": "phase_8"
+          },
+          "output_key": "execution_result",
+          "next_phase": "phase_9"
+        },
+        {
+          "id": "phase_9",
+          "name": "Campaign Activation Planning",
+          "description": "Generate campaign activation plan",
+          "agent": "ds_agent",
+          "tools": ["generate_campaign_summary_tool"],
+          "context_keys": ["brand_analysis", "execution_result", "activation_channel"],
+          "output_key": "campaign_plan",
+          "next_phase": "phase_10"
+        },
+        {
+          "id": "phase_10",
+          "name": "Campaign Summary Output",
+          "description": "Generate and present complete campaign summary",
+          "agent": "ds_agent",
+          "output_format": {
+            "campaign_title": "string",
+            "campaign_content": "string",
+            "landing_page_url": "string",
+            "audience_list": {
+              "count": "number",
+              "sql": "string",
+              "sample": "array"
+            },
+            "design_suggestions": {
+              "primary_color": "string",
+              "secondary_color": "string",
+              "font_style": "string",
+              "tone": "string",
+              "imagery_style": "string"
+            },
+            "send_recommendations": {
+              "best_time": "string",
+              "subject_lines": "array",
+              "cta_text": "string"
+            }
+          },
+          "output_key": "campaign_summary",
+          "next_phase": null
+        }
+      ]
+    },
+    {
+      "id": "abandoned-cart-analysis",
+      "name": "Abandoned Cart User Analysis",
+      "description": "Find and analyze users who abandoned their shopping carts",
+      "status": "active",
+      "trigger_keywords": ["abandoned cart", "cart abandonment", "shopping cart"],
+      "phases": [
+        {
+          "id": "phase_1",
+          "name": "Planning",
+          "description": "Analyze request and create execution plan",
+          "agent": "ds_agent",
+          "tools": ["get_ontology_tool", "submit_execution_plan"],
+          "output_key": "execution_plan",
+          "next_phase": "phase_2"
+        },
+        {
+          "id": "phase_2",
+          "name": "Execution",
+          "description": "Generate and execute SQL query",
+          "agent": "de_agent",
+          "tools": ["dry_run_sql_tool", "run_sql_preview_tool"],
+          "output_key": "execution_result",
+          "next_phase": "phase_3"
+        },
+        {
+          "id": "phase_3",
+          "name": "Verification",
+          "description": "Verify results meet user requirements",
+          "agent": "verifier",
+          "verification": {
+            "on_success": null,
+            "on_backtrack": "phase_1",
+            "on_add_step": "phase_2"
+          },
+          "output_key": "verification",
+          "next_phase": null
+        }
+      ]
+    },
+    {
+      "id": "vip-customer-analysis",
+      "name": "VIP Customer Analysis",
+      "description": "Identify and analyze VIP/high-value customers",
+      "status": "active",
+      "trigger_keywords": ["vip", "high value", "valuable customers", "top customers"],
+      "phases": [
+        {
+          "id": "phase_1",
+          "name": "Planning",
+          "description": "Analyze VIP criteria and create execution plan",
+          "agent": "ds_agent",
+          "tools": ["get_ontology_tool", "submit_execution_plan"],
+          "output_key": "execution_plan",
+          "next_phase": "phase_2"
+        },
+        {
+          "id": "phase_2",
+          "name": "Execution",
+          "description": "Generate and execute SQL query for VIP users",
+          "agent": "de_agent",
+          "tools": ["dry_run_sql_tool", "run_sql_preview_tool"],
+          "output_key": "execution_result",
+          "next_phase": "phase_3"
+        },
+        {
+          "id": "phase_3",
+          "name": "Verification",
+          "description": "Verify VIP analysis results",
+          "agent": "verifier",
+          "verification": {
+            "on_success": null,
+            "on_backtrack": "phase_1",
+            "on_add_step": "phase_2"
+          },
+          "output_key": "verification",
+          "next_phase": null
+        }
+      ]
+    },
+    {
+      "id": "archetype-quiz-workflow",
+      "name": "Customer Archetype Quiz",
+      "description": "Interactive personality quiz to discover customer archetypes and match to campaigns",
+      "status": "active",
+      "trigger_keywords": ["archetype", "quiz", "personality", "take the quiz", "what archetype", "customer type"],
+      "phases": [
+        {
+          "id": "phase_1",
+          "name": "Quiz Setup",
+          "description": "Load archetype quiz questions from ontology and present to user",
+          "agent": "ds_agent",
+          "tools": ["get_labeling_rule_tool"],
+          "instructions": "Call get_labeling_rule_tool('archetype_quiz') to get quiz questions. Present questions one at a time in a conversational, engaging way. Wait for user responses.",
+          "output_key": "quiz_questions",
+          "next_phase": "phase_2"
+        },
+        {
+          "id": "phase_2",
+          "name": "Quiz Scoring",
+          "description": "Score quiz responses and reveal archetype results",
+          "agent": "ds_agent",
+          "tools": ["score_quiz_tool"],
+          "instructions": "After collecting all responses, call score_quiz_tool with the quiz_key, user_id, and responses dict. Present the primary and secondary archetypes to the user with their semantic definitions.",
+          "output_key": "quiz_results",
+          "next_phase": "phase_3"
+        },
+        {
+          "id": "phase_3",
+          "name": "Segment Matching",
+          "description": "Match archetype results to available campaign segments",
+          "agent": "ds_agent",
+          "tools": ["resolve_segments_tool", "resolve_nba_context_tool"],
+          "instructions": "Call resolve_segments_tool with the user's archetype as attributes. For matched segments, call resolve_nba_context_tool to get personalized marketing context. Present campaign recommendations.",
+          "output_key": "campaign_match",
+          "next_phase": null
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,1005 @@
+{
+  "version": "3.0.0",
+  "site_id": "default",
+  "nodes": {
+    "member_profile": {
+      "type": "datasource",
+      "status": "active",
+      "name": "Member Profile",
+      "table": "report.smb_member_info",
+      "description": "One row per member with latest-order snapshot (2019-03 to 2023-07). Tenant scope: siteid = 122. Every query on this table MUST include WHERE siteid = 122; join member tables on BOTH siteid AND uid. PII columns (Member_Name, Member_Email, Member_Phone, Account, address, store_address) are excluded — never select them or use SELECT *.",
+      "primaryKey": "uid",
+      "columns": {
+        "uid": {
+          "dataType": "STR",
+          "description": "Member identifier (unique within siteid)",
+          "businessTerm": null
+        },
+        "siteid": {
+          "dataType": "NUM",
+          "description": "Tenant id — always 122",
+          "businessTerm": null
+        },
+        "created_time": {
+          "dataType": "DATE",
+          "description": "Member record created",
+          "businessTerm": null
+        },
+        "updated_time": {
+          "dataType": "DATE",
+          "description": "Member record updated",
+          "businessTerm": null
+        },
+        "year": {
+          "dataType": "NUM",
+          "description": "Year of latest order",
+          "businessTerm": null
+        },
+        "tx_id": {
+          "dataType": "STR",
+          "description": "Latest transaction id",
+          "businessTerm": null
+        },
+        "store_id": {
+          "dataType": "STR",
+          "description": "Store of latest order",
+          "businessTerm": null
+        },
+        "item_id": {
+          "dataType": "STR",
+          "description": "Item of latest order",
+          "businessTerm": null
+        },
+        "item_name": {
+          "dataType": "STR",
+          "description": "Item name of latest order",
+          "businessTerm": null
+        },
+        "num": {
+          "dataType": "NUM",
+          "description": "Quantity of latest order",
+          "businessTerm": null
+        },
+        "amount": {
+          "dataType": "NUM",
+          "description": "Amount of latest order",
+          "businessTerm": null
+        },
+        "payment_status": {
+          "dataType": "STR",
+          "description": "Latest order status: paid | 完成 | 處理中 | 出貨中",
+          "businessTerm": null
+        }
+      }
+    },
+    "member_rfm": {
+      "type": "datasource",
+      "status": "active",
+      "name": "Member RFM",
+      "table": "report.smb_rfm_result",
+      "description": "RFM metrics per member, snapshot 2026-01-15 (last purchase in data: 2025-08-11). Tenant scope: siteid = 122. Every query on this table MUST include WHERE siteid = 122; join member tables on BOTH siteid AND uid. R high = recency <= 244 days; F high = frequency > 1 visit/year; M high = avg_amount >= 1660. segment 0 = no purchase history (R/F/M NULL) — exclude with segment > 0. Quote upper-case columns: \"R\", \"F\", \"M\".",
+      "primaryKey": "uid",
+      "columns": {
+        "uid": {
+          "dataType": "STR",
+          "description": "Member identifier (unique within siteid)",
+          "businessTerm": null
+        },
+        "siteid": {
+          "dataType": "NUM",
+          "description": "Tenant id — always 122",
+          "businessTerm": null
+        },
+        "R": {
+          "dataType": "STR",
+          "description": "Recency flag: 'high' | 'low'",
+          "businessTerm": null
+        },
+        "F": {
+          "dataType": "STR",
+          "description": "Frequency flag: 'high' | 'low'",
+          "businessTerm": null
+        },
+        "M": {
+          "dataType": "STR",
+          "description": "Monetary flag: 'high' | 'low'",
+          "businessTerm": null
+        },
+        "segment": {
+          "dataType": "NUM",
+          "description": "RFM combination as R/F/M: 1=HHH 2=HLH 3=LHH 4=LLH 5=HHL 6=HLL 7=LHL 8=LLL; 0=unscored",
+          "businessTerm": null
+        },
+        "recency": {
+          "dataType": "NUM",
+          "description": "Days since last purchase",
+          "businessTerm": null
+        },
+        "frequency": {
+          "dataType": "NUM",
+          "description": "Visits per year",
+          "businessTerm": null
+        },
+        "avg_amount": {
+          "dataType": "NUM",
+          "description": "Average order amount",
+          "businessTerm": null
+        },
+        "lifetime_value": {
+          "dataType": "NUM",
+          "description": "Total spend",
+          "businessTerm": null
+        },
+        "lifetime_visit": {
+          "dataType": "NUM",
+          "description": "Total visits",
+          "businessTerm": null
+        },
+        "first_visit_time": {
+          "dataType": "DATE",
+          "description": "First purchase",
+          "businessTerm": null
+        },
+        "last_time": {
+          "dataType": "DATE",
+          "description": "Last purchase",
+          "businessTerm": null
+        },
+        "last_store": {
+          "dataType": "STR",
+          "description": "Store of last purchase",
+          "businessTerm": null
+        },
+        "last_year_visit": {
+          "dataType": "NUM",
+          "description": "Visits in the last year",
+          "businessTerm": null
+        },
+        "last_year_total_amout": {
+          "dataType": "NUM",
+          "description": "Spend in the last year (column name misspelled in source)",
+          "businessTerm": null
+        },
+        "recency_bin": {
+          "dataType": "NUM",
+          "description": "Recency decile 1-10 (1 = most recent)",
+          "businessTerm": null
+        },
+        "frequency_bin": {
+          "dataType": "NUM",
+          "description": "Frequency decile 1-10 (10 = most frequent)",
+          "businessTerm": null
+        },
+        "avg_amount_bin": {
+          "dataType": "NUM",
+          "description": "Average-amount decile 1-10",
+          "businessTerm": null
+        }
+      }
+    },
+    "dac_taxonomy": {
+      "type": "datasource",
+      "status": "active",
+      "name": "DAC Taxonomy",
+      "table": "dac.dac_taxonomy",
+      "description": "Shared (not tenant-scoped) interest/brand label taxonomy: category, label hierarchy levels 1-5, label_type brand | retail_interest | 90_of_order.",
+      "primaryKey": "id",
+      "columns": {
+        "id": {
+          "dataType": "NUM",
+          "description": "Label id",
+          "businessTerm": null
+        },
+        "category": {
+          "dataType": "STR",
+          "description": "Top-level category",
+          "businessTerm": null
+        },
+        "label_level_1": {
+          "dataType": "STR",
+          "description": "Hierarchy level 1",
+          "businessTerm": null
+        },
+        "label_level_2": {
+          "dataType": "STR",
+          "description": "Hierarchy level 2",
+          "businessTerm": null
+        },
+        "label_level_3": {
+          "dataType": "STR",
+          "description": "Hierarchy level 3",
+          "businessTerm": null
+        },
+        "label": {
+          "dataType": "STR",
+          "description": "Leaf label",
+          "businessTerm": null
+        },
+        "description": {
+          "dataType": "STR",
+          "description": "Label description",
+          "businessTerm": null
+        },
+        "label_type": {
+          "dataType": "STR",
+          "description": "brand | retail_interest | 90_of_order",
+          "businessTerm": null
+        },
+        "level": {
+          "dataType": "NUM",
+          "description": "Depth of the label",
+          "businessTerm": null
+        }
+      }
+    },
+    "會員資訊-性別": {
+      "type": "attribute",
+      "status": "deprecated",
+      "name": "會員資訊-性別",
+      "description": "Member gender classification — deprecated for siteid 122: no gender column in report.*.",
+      "valueType": "NUM",
+      "isMultiple": false,
+      "isScored": false,
+      "options": [
+        {
+          "name": "男",
+          "value": "01",
+          "semanticDefinition": null,
+          "metadata": null
+        },
+        {
+          "name": "女",
+          "value": "02",
+          "semanticDefinition": null,
+          "metadata": null
+        }
+      ]
+    },
+    "會員資訊-年齡區間": {
+      "type": "attribute",
+      "status": "deprecated",
+      "name": "會員資訊-年齡區間",
+      "description": "Member age range bucket — deprecated for siteid 122: no birth date column in report.*.",
+      "valueType": "STR",
+      "isMultiple": false,
+      "isScored": false,
+      "options": [
+        {
+          "name": "18-24歲",
+          "value": "18-24",
+          "semanticDefinition": null,
+          "metadata": null
+        },
+        {
+          "name": "25-34歲",
+          "value": "25-34",
+          "semanticDefinition": null,
+          "metadata": null
+        },
+        {
+          "name": "35-44歲",
+          "value": "35-44",
+          "semanticDefinition": null,
+          "metadata": null
+        },
+        {
+          "name": "45-54歲",
+          "value": "45-54",
+          "semanticDefinition": null,
+          "metadata": null
+        },
+        {
+          "name": "55+歲",
+          "value": "55+",
+          "semanticDefinition": null,
+          "metadata": null
+        }
+      ]
+    },
+    "會員資訊-居住城市": {
+      "type": "attribute",
+      "status": "deprecated",
+      "name": "會員資訊-居住城市",
+      "description": "Member residential city — deprecated for siteid 122: city is NULL for all siteid 122 members.",
+      "valueType": "STR",
+      "isMultiple": false,
+      "isScored": false,
+      "options": [
+        {
+          "name": "台北市",
+          "value": "TPE",
+          "semanticDefinition": null,
+          "metadata": null
+        },
+        {
+          "name": "新北市",
+          "value": "NTP",
+          "semanticDefinition": null,
+          "metadata": null
+        },
+        {
+          "name": "台中市",
+          "value": "TXG",
+          "semanticDefinition": null,
+          "metadata": null
+        },
+        {
+          "name": "高雄市",
+          "value": "KHH",
+          "semanticDefinition": null,
+          "metadata": null
+        },
+        {
+          "name": "台南市",
+          "value": "TNN",
+          "semanticDefinition": null,
+          "metadata": null
+        },
+        {
+          "name": "其他",
+          "value": "OTHER",
+          "semanticDefinition": null,
+          "metadata": null
+        }
+      ]
+    },
+    "會員資訊-會員等級": {
+      "type": "attribute",
+      "status": "deprecated",
+      "name": "會員資訊-會員等級",
+      "description": "Membership tier level — deprecated for siteid 122: member_level is NULL for all siteid 122 members.",
+      "valueType": "STR",
+      "isMultiple": false,
+      "isScored": false,
+      "options": [
+        {
+          "name": "一般會員",
+          "value": "REGULAR",
+          "semanticDefinition": null,
+          "metadata": null
+        },
+        {
+          "name": "銀卡會員",
+          "value": "SILVER",
+          "semanticDefinition": null,
+          "metadata": null
+        },
+        {
+          "name": "金卡會員",
+          "value": "GOLD",
+          "semanticDefinition": null,
+          "metadata": null
+        },
+        {
+          "name": "白金會員",
+          "value": "PLATINUM",
+          "semanticDefinition": null,
+          "metadata": null
+        },
+        {
+          "name": "鑽石會員",
+          "value": "DIAMOND",
+          "semanticDefinition": null,
+          "metadata": null
+        }
+      ]
+    },
+    "消費行為-購買力等級": {
+      "type": "attribute",
+      "status": "active",
+      "name": "消費行為-購買力等級",
+      "description": "Purchasing power 1-5: avg_amount quintile among RFM-scored siteid 122 members.",
+      "valueType": "NUM",
+      "isMultiple": false,
+      "isScored": false,
+      "options": [
+        {
+          "name": "等級5",
+          "value": "5",
+          "semanticDefinition": "avg_amount >= 1525.68 (top 20%)",
+          "metadata": null
+        },
+        {
+          "name": "等級4",
+          "value": "4",
+          "semanticDefinition": "avg_amount 1330–1525.68",
+          "metadata": null
+        },
+        {
+          "name": "等級3",
+          "value": "3",
+          "semanticDefinition": "avg_amount 999–1330",
+          "metadata": null
+        },
+        {
+          "name": "等級2",
+          "value": "2",
+          "semanticDefinition": "avg_amount 317–999",
+          "metadata": null
+        },
+        {
+          "name": "等級1",
+          "value": "1",
+          "semanticDefinition": "avg_amount < 317 (bottom 20%)",
+          "metadata": null
+        }
+      ]
+    },
+    "消費行為-最近購買天數": {
+      "type": "attribute",
+      "status": "active",
+      "name": "消費行為-最近購買天數",
+      "description": "Days since last purchase (member_rfm.recency, snapshot 2026-01-15).",
+      "valueType": "NUM",
+      "isMultiple": false,
+      "isScored": false,
+      "options": []
+    },
+    "消費行為-購買頻率": {
+      "type": "attribute",
+      "status": "active",
+      "name": "消費行為-購買頻率",
+      "description": "Purchase frequency bucket from member_rfm.frequency (visits/year). Recency is 消費行為-活躍狀態.",
+      "valueType": "STR",
+      "isMultiple": false,
+      "isScored": false,
+      "options": [
+        {
+          "name": "高頻",
+          "value": "HIGH",
+          "semanticDefinition": "frequency >= 2.67 visits/year (top 10%)",
+          "metadata": null
+        },
+        {
+          "name": "中頻",
+          "value": "MEDIUM",
+          "semanticDefinition": "frequency > 1 and < 2.67 visits/year",
+          "metadata": null
+        },
+        {
+          "name": "低頻",
+          "value": "LOW",
+          "semanticDefinition": "frequency <= 1 visit/year",
+          "metadata": null
+        }
+      ]
+    },
+    "興趣偏好-商品類別偏好": {
+      "type": "attribute",
+      "status": "active",
+      "name": "興趣偏好-商品類別偏好",
+      "description": "Preferred product category based on purchase history",
+      "valueType": "STR",
+      "isMultiple": true,
+      "isScored": false,
+      "options": []
+    },
+    "興趣偏好-品牌偏好": {
+      "type": "attribute",
+      "status": "active",
+      "name": "興趣偏好-品牌偏好",
+      "description": "Preferred brands based on purchase and browsing history",
+      "valueType": "STR",
+      "isMultiple": true,
+      "isScored": false,
+      "options": []
+    },
+    "archetype": {
+      "type": "attribute",
+      "status": "active",
+      "name": "archetype",
+      "description": "Customer psychological archetype from quiz",
+      "valueType": "STR",
+      "isMultiple": true,
+      "isScored": true,
+      "options": [
+        {
+          "name": "Explorer",
+          "value": "explorer",
+          "semanticDefinition": "Driven by discovery and freedom. Seeks new experiences, variety, and adventure.",
+          "metadata": null
+        },
+        {
+          "name": "Hero",
+          "value": "hero",
+          "semanticDefinition": "Driven by achievement and mastery. Seeks to prove worth through courageous action.",
+          "metadata": null
+        },
+        {
+          "name": "Sage",
+          "value": "sage",
+          "semanticDefinition": "Driven by knowledge and truth. Seeks understanding through analysis and reflection.",
+          "metadata": null
+        },
+        {
+          "name": "Rebel",
+          "value": "rebel",
+          "semanticDefinition": "Driven by revolution and change. Challenges the status quo and breaks rules.",
+          "metadata": null
+        },
+        {
+          "name": "Creator",
+          "value": "creator",
+          "semanticDefinition": "Driven by innovation and self-expression. Seeks to build something of enduring value.",
+          "metadata": null
+        },
+        {
+          "name": "Caregiver",
+          "value": "caregiver",
+          "semanticDefinition": "Driven by service and compassion. Seeks to help and protect others.",
+          "metadata": null
+        },
+        {
+          "name": "Ruler",
+          "value": "ruler",
+          "semanticDefinition": "Driven by control and leadership. Seeks order, stability, and influence.",
+          "metadata": null
+        },
+        {
+          "name": "Magician",
+          "value": "magician",
+          "semanticDefinition": "Driven by transformation and vision. Seeks to make dreams come true.",
+          "metadata": null
+        },
+        {
+          "name": "Lover",
+          "value": "lover",
+          "semanticDefinition": "Driven by passion and connection. Seeks intimacy, beauty, and sensory pleasure.",
+          "metadata": null
+        },
+        {
+          "name": "Jester",
+          "value": "jester",
+          "semanticDefinition": "Driven by joy and humor. Seeks to live in the moment and have fun.",
+          "metadata": null
+        },
+        {
+          "name": "Innocent",
+          "value": "innocent",
+          "semanticDefinition": "Driven by optimism and simplicity. Seeks happiness and safety.",
+          "metadata": null
+        },
+        {
+          "name": "Everyman",
+          "value": "everyman",
+          "semanticDefinition": "Driven by belonging and connection. Seeks to fit in and be accepted.",
+          "metadata": null
+        }
+      ]
+    },
+    "explorer_campaign": {
+      "type": "segment",
+      "status": "active",
+      "name": "Explorer Campaign",
+      "description": "Target users with explorer archetype for discovery-themed campaigns",
+      "conditions": [
+        {
+          "attribute": "archetype",
+          "operator": "EQUAL",
+          "value": "explorer",
+          "secondValue": null,
+          "minScore": 2.0
+        }
+      ],
+      "logic": "ALL"
+    },
+    "high_value_female": {
+      "type": "segment",
+      "status": "deprecated",
+      "name": "High Value Female",
+      "description": "Female members with purchasing power >= 4 — deprecated: depends on gender/age, which have no source.",
+      "conditions": [
+        {
+          "attribute": "會員資訊-性別",
+          "operator": "EQUAL",
+          "value": "02",
+          "secondValue": null,
+          "minScore": null
+        },
+        {
+          "attribute": "消費行為-購買力等級",
+          "operator": ">=",
+          "value": "4",
+          "secondValue": null,
+          "minScore": null
+        }
+      ],
+      "logic": "ALL"
+    },
+    "dormant_reactivation": {
+      "type": "segment",
+      "status": "active",
+      "name": "Dormant Member Reactivation",
+      "description": "Members with no purchase in 730+ days, target for win-back campaigns",
+      "conditions": [
+        {
+          "attribute": "消費行為-活躍狀態",
+          "operator": "EQUAL",
+          "value": "DORMANT",
+          "secondValue": null,
+          "minScore": null
+        }
+      ],
+      "logic": "ALL"
+    },
+    "young_high_spender": {
+      "type": "segment",
+      "status": "deprecated",
+      "name": "Young High Spender",
+      "description": "Members aged 18-34 with purchasing power >= 3, ideal for trending products — deprecated: depends on gender/age, which have no source.",
+      "conditions": [
+        {
+          "attribute": "會員資訊-年齡區間",
+          "operator": "IN",
+          "value": [
+            "18-24",
+            "25-34"
+          ],
+          "secondValue": null,
+          "minScore": null
+        },
+        {
+          "attribute": "消費行為-購買力等級",
+          "operator": ">=",
+          "value": "3",
+          "secondValue": null,
+          "minScore": null
+        }
+      ],
+      "logic": "ALL"
+    },
+    "hero_campaign": {
+      "type": "segment",
+      "status": "active",
+      "name": "Hero Campaign",
+      "description": "Abandoned-cart recovery tuned to the hero archetype",
+      "conditions": [
+        {
+          "attribute": "archetype",
+          "operator": "EQUAL",
+          "value": "hero",
+          "secondValue": null,
+          "minScore": 2.0
+        }
+      ],
+      "logic": "ALL"
+    },
+    "sage_campaign": {
+      "type": "segment",
+      "status": "active",
+      "name": "Sage Campaign",
+      "description": "Abandoned-cart recovery tuned to the sage archetype",
+      "conditions": [
+        {
+          "attribute": "archetype",
+          "operator": "EQUAL",
+          "value": "sage",
+          "secondValue": null,
+          "minScore": 2.0
+        }
+      ],
+      "logic": "ALL"
+    },
+    "caregiver_campaign": {
+      "type": "segment",
+      "status": "active",
+      "name": "Caregiver Campaign",
+      "description": "Abandoned-cart recovery tuned to the caregiver archetype",
+      "conditions": [
+        {
+          "attribute": "archetype",
+          "operator": "EQUAL",
+          "value": "caregiver",
+          "secondValue": null,
+          "minScore": 2.0
+        }
+      ],
+      "logic": "ALL"
+    },
+    "rebel_campaign": {
+      "type": "segment",
+      "status": "active",
+      "name": "Rebel Campaign",
+      "description": "Abandoned-cart recovery tuned to the rebel archetype",
+      "conditions": [
+        {
+          "attribute": "archetype",
+          "operator": "EQUAL",
+          "value": "rebel",
+          "secondValue": null,
+          "minScore": 2.0
+        }
+      ],
+      "logic": "ALL"
+    },
+    "creator_campaign": {
+      "type": "segment",
+      "status": "active",
+      "name": "Creator Campaign",
+      "description": "Abandoned-cart recovery tuned to the creator archetype",
+      "conditions": [
+        {
+          "attribute": "archetype",
+          "operator": "EQUAL",
+          "value": "creator",
+          "secondValue": null,
+          "minScore": 2.0
+        }
+      ],
+      "logic": "ALL"
+    },
+    "ruler_campaign": {
+      "type": "segment",
+      "status": "active",
+      "name": "Ruler Campaign",
+      "description": "Abandoned-cart recovery tuned to the ruler archetype",
+      "conditions": [
+        {
+          "attribute": "archetype",
+          "operator": "EQUAL",
+          "value": "ruler",
+          "secondValue": null,
+          "minScore": 2.0
+        }
+      ],
+      "logic": "ALL"
+    },
+    "magician_campaign": {
+      "type": "segment",
+      "status": "active",
+      "name": "Magician Campaign",
+      "description": "Abandoned-cart recovery tuned to the magician archetype",
+      "conditions": [
+        {
+          "attribute": "archetype",
+          "operator": "EQUAL",
+          "value": "magician",
+          "secondValue": null,
+          "minScore": 2.0
+        }
+      ],
+      "logic": "ALL"
+    },
+    "lover_campaign": {
+      "type": "segment",
+      "status": "active",
+      "name": "Lover Campaign",
+      "description": "Abandoned-cart recovery tuned to the lover archetype",
+      "conditions": [
+        {
+          "attribute": "archetype",
+          "operator": "EQUAL",
+          "value": "lover",
+          "secondValue": null,
+          "minScore": 2.0
+        }
+      ],
+      "logic": "ALL"
+    },
+    "jester_campaign": {
+      "type": "segment",
+      "status": "active",
+      "name": "Jester Campaign",
+      "description": "Abandoned-cart recovery tuned to the jester archetype",
+      "conditions": [
+        {
+          "attribute": "archetype",
+          "operator": "EQUAL",
+          "value": "jester",
+          "secondValue": null,
+          "minScore": 2.0
+        }
+      ],
+      "logic": "ALL"
+    },
+    "innocent_campaign": {
+      "type": "segment",
+      "status": "active",
+      "name": "Innocent Campaign",
+      "description": "Abandoned-cart recovery tuned to the innocent archetype",
+      "conditions": [
+        {
+          "attribute": "archetype",
+          "operator": "EQUAL",
+          "value": "innocent",
+          "secondValue": null,
+          "minScore": 2.0
+        }
+      ],
+      "logic": "ALL"
+    },
+    "everyman_campaign": {
+      "type": "segment",
+      "status": "active",
+      "name": "Everyman Campaign",
+      "description": "Abandoned-cart recovery tuned to the everyman archetype",
+      "conditions": [
+        {
+          "attribute": "archetype",
+          "operator": "EQUAL",
+          "value": "everyman",
+          "secondValue": null,
+          "minScore": 2.0
+        }
+      ],
+      "logic": "ALL"
+    },
+    "消費行為-活躍狀態": {
+      "type": "attribute",
+      "status": "active",
+      "name": "消費行為-活躍狀態",
+      "description": "Activity status from member_rfm.recency (days since last purchase).",
+      "valueType": "STR",
+      "isMultiple": false,
+      "isScored": false,
+      "options": [
+        {
+          "name": "活躍",
+          "value": "ACTIVE",
+          "semanticDefinition": "Purchased within 180 days",
+          "metadata": null
+        },
+        {
+          "name": "冷卻",
+          "value": "COOLING",
+          "semanticDefinition": "Last purchase 181–365 days ago",
+          "metadata": null
+        },
+        {
+          "name": "流失風險",
+          "value": "AT_RISK",
+          "semanticDefinition": "Last purchase 366–730 days ago",
+          "metadata": null
+        },
+        {
+          "name": "沉睡",
+          "value": "DORMANT",
+          "semanticDefinition": "No purchase in 730+ days",
+          "metadata": null
+        }
+      ]
+    },
+    "消費行為-RFM分群": {
+      "type": "attribute",
+      "status": "active",
+      "name": "消費行為-RFM分群",
+      "description": "RFM combination code from member_rfm.segment (0 = no purchase history, excluded).",
+      "valueType": "STR",
+      "isMultiple": false,
+      "isScored": false,
+      "options": [
+        {
+          "name": "R高F高M高",
+          "value": "1",
+          "semanticDefinition": "Champions",
+          "metadata": null
+        },
+        {
+          "name": "R高F低M高",
+          "value": "2",
+          "semanticDefinition": "Recent big spenders",
+          "metadata": null
+        },
+        {
+          "name": "R低F高M高",
+          "value": "3",
+          "semanticDefinition": "At-risk loyal high value",
+          "metadata": null
+        },
+        {
+          "name": "R低F低M高",
+          "value": "4",
+          "semanticDefinition": "Lapsed big spenders",
+          "metadata": null
+        },
+        {
+          "name": "R高F高M低",
+          "value": "5",
+          "semanticDefinition": "Recent frequent low spend",
+          "metadata": null
+        },
+        {
+          "name": "R高F低M低",
+          "value": "6",
+          "semanticDefinition": "New/occasional",
+          "metadata": null
+        },
+        {
+          "name": "R低F高M低",
+          "value": "7",
+          "semanticDefinition": "At-risk frequent low spend",
+          "metadata": null
+        },
+        {
+          "name": "R低F低M低",
+          "value": "8",
+          "semanticDefinition": "Lapsed low value",
+          "metadata": null
+        }
+      ]
+    },
+    "active_customers": {
+      "type": "segment",
+      "status": "active",
+      "name": "Active Customers",
+      "description": "Purchased within the last 365 days",
+      "conditions": [
+        {
+          "attribute": "消費行為-活躍狀態",
+          "operator": "IN",
+          "value": [
+            "ACTIVE",
+            "COOLING"
+          ],
+          "secondValue": null,
+          "minScore": null
+        }
+      ],
+      "logic": "ALL"
+    },
+    "high_purchasing_power": {
+      "type": "segment",
+      "status": "active",
+      "name": "High Purchasing Power",
+      "description": "Purchasing power level 4-5 (top 40% by avg order amount)",
+      "conditions": [
+        {
+          "attribute": "消費行為-購買力等級",
+          "operator": ">=",
+          "value": "4",
+          "secondValue": null,
+          "minScore": null
+        }
+      ],
+      "logic": "ALL"
+    },
+    "rfm_champions": {
+      "type": "segment",
+      "status": "active",
+      "name": "RFM Champions",
+      "description": "Recent, frequent, high-spend members (RFM segment 1)",
+      "conditions": [
+        {
+          "attribute": "消費行為-RFM分群",
+          "operator": "EQUAL",
+          "value": "1",
+          "secondValue": null,
+          "minScore": null
+        }
+      ],
+      "logic": "ALL"
+    },
+    "rfm_at_risk_high_value": {
+      "type": "segment",
+      "status": "active",
+      "name": "At-Risk High Value",
+      "description": "Frequent high spenders who have not purchased recently (RFM segment 3) — retention priority",
+      "conditions": [
+        {
+          "attribute": "消費行為-RFM分群",
+          "operator": "EQUAL",
+          "value": "3",
+          "secondValue": null,
+          "minScore": null
+        }
+      ],
+      "logic": "ALL"
+    },
+    "rfm_lapsed_big_spenders": {
+      "type": "segment",
+      "status": "active",
+      "name": "Lapsed Big Spenders",
+      "description": "High spenders with low recency and frequency (RFM segment 4) — win-back with premium offers",
+      "conditions": [
+        {
+          "attribute": "消費行為-RFM分群",
+          "operator": "EQUAL",
+          "value": "4",
+          "secondValue": null,
+          "minScore": null
+        }
+      ],
+      "logic": "ALL"
+    }
+  }
+}
